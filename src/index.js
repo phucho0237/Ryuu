@@ -29,7 +29,7 @@ client.config = require("./config");
 client.commands = new Collection();
 client.cooldowns = new Collection();
 
-["events", "slashCommands"].forEach(file => {
+["events", "slashCommands", "antiCrash"].forEach(file => {
    require(`./handlers/${file}`)(client);
 });
 
