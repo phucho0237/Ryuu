@@ -17,8 +17,8 @@
    },
    "main": "./src/index.js",
    "scripts": {
-      "start": "node .",
-      "dev": "nodemon"
+      "dev": "nodemon",
+      "start": "node ."
    },
    "dependencies": {
       "colors": "^1.4.0",
