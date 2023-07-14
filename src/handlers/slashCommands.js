@@ -7,21 +7,17 @@ var colors = require("colors/safe");
 module.exports = client => {
    let slashCommandsArray = [];
 
-   const slashCommandsFolder = fs.readdirSync(
-      path.join(__dirname, "./src/commands/slash")
-   );
+   const slashCommandsFolder = fs.readdirSync("./src/commands/slash");
 
    for (const folder of slashCommandsFolder) {
-      const slashCommandsFile = fs.readdirSync(
-         path.join(__dirname, `./src/commands/slash/${folder}`)
-      );
+      const slashCommandsFile = fs
+         .readdirSync(`./src/commands/slash/${folder}`)
+         .filter(f => f.endsWith(".js"));
 
       for (const file of slashCommandsFile) {
-         const slashCommand = fs.readdirSync(
-            path.join(__dirname, `./src/commands/slash/${folder}/${file}`)
-         );
+         const slashCommand = require(`../commands/slash/${folder}/${file}`);
 
-         if ("data" in slashCommand && execute in slashCommand) {
+         if ("data" in slashCommand && "execute" in slashCommand) {
             client.slashCommands.set(slashCommand.data.name, slashCommand);
             slashCommandsArray.push(slashCommand.data.toJSON());
          } else {

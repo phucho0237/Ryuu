@@ -6,19 +6,13 @@ var colors = require("colors/safe");
 module.exports = client => {
    let i = 0;
 
-   const commandsFolder = fs.readdirSync(
-      path.join(__dirname, "./src/commands/message")
-   );
+   const commandsFolder = fs.readdirSync("./src/commands/message");
 
    for (const folder of commandsFolder) {
-      const commandsFile = fs.readdirSync(
-         path.join(__dirname, `./src/commands/message/${folder}`)
-      );
+      const commandsFile = fs.readdirSync(`./src/commands/message/${folder}`);
 
       for (const file of commandsFile) {
-         const command = fs.readdirSync(
-            path.join(__dirname, `./src/commands/message/${folder}/${file}`)
-         );
+         const command = require(`../commands/message/${folder}/${file}`);
 
          if (command.name) {
             client.commands.set(command.name, command);
