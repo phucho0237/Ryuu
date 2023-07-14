@@ -13,7 +13,7 @@ module.exports = client => {
       for (const file of commandsFile) {
          const command = require(`../commands/message/${folder}/${file}`);
 
-         if (command.name) {
+         if ("name" in command && "execute" in command) {
             client.commands.set(command.name, command);
             i++;
          } else {
