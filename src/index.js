@@ -31,7 +31,7 @@ client.slashCommands = new Collection();
 client.cooldowns = new Collection();
 client.aliases = new Collection();
 
-["slashCommands", "commands"].forEach(file => {
+["events", "slashCommands", "commands"].forEach(file => {
    require(`./handlers/${file}`)(client);
 });
 
