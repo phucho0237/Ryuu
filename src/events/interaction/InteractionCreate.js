@@ -18,7 +18,7 @@ module.exports = {
       try {
          await command.execute(interaction);
       } catch (err) {
-         console.error(colors.red(err));
+         console.error(err);
       }
    }
 };
