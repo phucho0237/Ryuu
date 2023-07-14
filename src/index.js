@@ -31,6 +31,8 @@ client.slashCommands = new Collection();
 client.cooldowns = new Collection();
 client.aliases = new Collection();
 
-// Handler loader
+["slashCommands"].forEach(file => {
+   require(`./handlers/${file}`)(client);
+});
 
 client.login(client.config.bot.token);
