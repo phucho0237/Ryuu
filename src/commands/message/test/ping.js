@@ -1,3 +1,4 @@
 module.exports = {
-   name: "ping"
+   name: "ping",
+   execute: ""
 };
