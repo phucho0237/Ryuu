@@ -1,0 +1,26 @@
+{
+   "name": "ryuu",
+   "version": "1.0.0",
+   "description": "A personal Discord Bot make by @phucho0237",
+   "license": "MIT",
+   "author": {
+      "name": "Nhu Phuc",
+      "email": "phucho0237@gmail.com"
+   },
+   "homepage": "https://github.com/phucho0237/Ryuu#readme",
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/phucho0237/Ryuu.git"
+   },
+   "bugs": {
+      "url": "https://github.com/phucho0237/Ryuu/issues"
+   },
+   "main": "./src/index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "dependencies": {
+      "discord.js": "^14.11.0",
+      "dotenv": "^16.3.1"
+   }
+}
