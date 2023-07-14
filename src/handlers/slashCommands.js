@@ -1,5 +1,4 @@
 const fs = require("fs");
-const path = require("path");
 const { REST, Routes } = require("discord.js");
 
 var colors = require("colors/safe");
