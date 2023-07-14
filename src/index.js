@@ -27,11 +27,9 @@ const client = new Client({
 client.config = require("./config");
 
 client.commands = new Collection();
-client.slashCommands = new Collection();
 client.cooldowns = new Collection();
-client.aliases = new Collection();
 
-["events", "slashCommands", "commands"].forEach(file => {
+["events", "slashCommands"].forEach(file => {
    require(`./handlers/${file}`)(client);
 });
 
