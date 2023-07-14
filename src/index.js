@@ -16,8 +16,8 @@ const client = new Client({
    presence: {
       activities: [
          {
-            name: "with Hutao ♥",
-            type: ActivityType.Playing
+            name: "/help for help",
+            type: ActivityType.Watching
          }
       ],
       status: "dnd"
