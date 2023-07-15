@@ -1,6 +1,7 @@
 const {
    SlashCommandBuilder,
-   ChatInputCommandInteraction
+   ChatInputCommandInteraction,
+   EmbedBuilder
 } = require("discord.js");
 
 module.exports = {
@@ -9,7 +10,21 @@ module.exports = {
     *
     * @param {ChatInputCommandInteraction} interaction
     */
-   execute(interaction) {
-      interaction.reply({ content: "Pong", ephemeral: true });
+   async execute(interaction) {
+      const msg = await interaction.deferReply({ fetchReply: true });
+
+      interaction.editReply({
+         embeds: [
+            new EmbedBuilder()
+               .setColor("#6AD9F3")
+               .setDescription(
+                  `Pong 🏓\n\nWebsockey Latency: \`${
+                     interaction.client.ws.ping
+                  }ms\`\nRoundtrip latency: \`${
+                     msg.createdTimestamp - interaction.createdTimestamp
+                  }ms\``
+               )
+         ]
+      });
    }
 };

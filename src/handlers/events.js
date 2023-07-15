@@ -19,13 +19,9 @@ module.exports = client => {
             eventsArray.push(eventName);
 
             if (event.once) {
-               client.once(event.name, (...args) =>
-                  event.execute(...args, client)
-               );
+               client.once(event.name, (...args) => event.execute(...args));
             } else {
-               client.on(event.name, (...args) =>
-                  event.execute(...args, client)
-               );
+               client.on(event.name, (...args) => event.execute(...args));
             }
          } else {
             continue;
