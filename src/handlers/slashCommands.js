@@ -40,7 +40,7 @@ module.exports = client => {
             )
          );
       } catch (err) {
-         console.error(colors.red(err));
+         console.error(err);
       }
    })();
 };
