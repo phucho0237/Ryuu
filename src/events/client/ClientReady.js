@@ -26,7 +26,7 @@ module.exports = {
       mongoose
          .connect(client.config.db.url)
          .then(() =>
-            console.log(colors.magenta("[MONGO] | Connected Successfully"))
+            console.log(colors.magenta("[MONGO] | Connected successfully"))
          )
          .catch(err => console.error(err));
    }
