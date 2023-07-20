@@ -1,4 +1,5 @@
 const { Events, Client } = require("discord.js");
+const mongoose = require("mongoose");
 
 var colors = require("colors/safe");
 
@@ -15,5 +16,18 @@ module.exports = {
             `[CLIENT] | Logged in as ${client.user.tag} (ID: ${client.user.id})`
          )
       );
+
+      if (!client.config.db.url)
+         return console.log(
+            colors.yellow(
+               `[WARNING] | You don't provide any MongoDB url in .env file, some commands will not working properly`
+            )
+         );
+      mongoose
+         .connect(client.config.db.url)
+         .then(() =>
+            console.log(colors.magenta("[MONGO] | Connected Successfully"))
+         )
+         .catch(err => console.error(err));
    }
 };
