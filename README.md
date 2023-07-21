@@ -1,2 +1,2 @@
 # Ryuu
-A personal Discord Bot make by @phucho0237
+My personal Discord Bot
