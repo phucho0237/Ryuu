@@ -1,11 +1,15 @@
 const {
    SlashCommandBuilder,
+   PermissionFlagsBits,
    ChatInputCommandInteraction,
    EmbedBuilder
 } = require("discord.js");
 
 module.exports = {
-   data: new SlashCommandBuilder().setName("ping").setDescription("Pong!"),
+   data: new SlashCommandBuilder()
+      .setName("ping")
+      .setDescription("Pong!")
+      .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
    /**
     *
     * @param {ChatInputCommandInteraction} interaction
@@ -18,7 +22,7 @@ module.exports = {
             new EmbedBuilder()
                .setColor("#6AD9F3")
                .setDescription(
-                  `Pong 🏓\n\nWebsockey Latency: \`${
+                  `Pong 🏓\n\nWebsocket Latency: \`${
                      interaction.client.ws.ping
                   }ms\`\nRoundtrip latency: \`${
                      msg.createdTimestamp - interaction.createdTimestamp
