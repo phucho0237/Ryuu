@@ -29,8 +29,8 @@ client.config = require("./config");
 client.commands = new Collection();
 client.cooldowns = new Collection();
 
-["events", "slashCommands", "antiCrash"].forEach(file => {
-   require(`./handlers/${file}`)(client);
+["events", "slashCommands", "antiCrash"].forEach(async file => {
+   await require(`./handlers/${file}`)(client);
 });
 
 client.login(client.config.bot.token);
