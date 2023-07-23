@@ -7,8 +7,8 @@ const {
 
 module.exports = {
    data: new SlashCommandBuilder()
-      .setName("ping")
-      .setDescription("Pong!")
+      .setName("status")
+      .setDescription("Show the status of the bot")
       .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
    /**
     *
