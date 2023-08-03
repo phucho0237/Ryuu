@@ -1,9 +1,22 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "lts"
-    }
-  }
+   "image": "mcr.microsoft.com/devcontainers/universal",
+   "features": {
+      "ghcr.io/devcontainers/features/git:1": {},
+      "ghcr.io/devcontainers/features/node:1": {
+         "version": "lts"
+      }
+   },
+   "customizations": {
+      "vscode": {
+         "extensions": [
+            "bierner.markdown-preview-github-styles",
+            "dbaeumer.vscode-eslint",
+            "esbenp.prettier-vscode",
+            "GitHub.github-vscode-theme",
+            "streetsidesoftware.code-spell-checker",
+            "vscode-icons-team.vscode-icons"
+         ]
+      }
+   },
+   "postCreateCommand": "npm install"
 }
