@@ -1,8 +1,7 @@
 const {
    SlashCommandBuilder,
    PermissionFlagsBits,
-   ChatInputCommandInteraction,
-   PermissionsBitField
+   ChatInputCommandInteraction
 } = require("discord.js");
 
 module.exports = {
@@ -16,9 +15,7 @@ module.exports = {
     */
    async execute(interaction) {
       if (
-         !interaction.member.permissions.has(
-            PermissionsBitField.Flags.ManageChannels
-         )
+         !interaction.member.permissions.has(PermissionFlagsBits.ManageChannels)
       )
          return interaction.reply({
             content: "You don't have permission to use this command.",
