@@ -23,11 +23,13 @@ module.exports = {
                `[WARNING] | You don't provide any MongoDB url in .env file, some commands will not working properly`
             )
          );
-      mongoose
-         .connect(client.config.db.url)
-         .then(() =>
-            console.log(colors.magenta("[MONGO] | Connected successfully"))
-         )
-         .catch(err => console.error(err));
+      mongoose.connect(client.config.db.url);
+
+      mongoose.connection.once("open", () => {
+         console.log(colors.magenta("[MONGO] | Connected successfully"));
+      });
+      mongoose.connection.on("error", err => {
+         console.error(err);
+      });
    }
 };
