@@ -6,6 +6,8 @@ const {
    Collection
 } = require("discord.js");
 
+const { GiveawayManagerWithOwnDatabase } = require("./utils/giveawaysManager");
+
 const client = new Client({
    intents: [
       IntentsBitField.Flags.Guilds,
@@ -24,10 +26,19 @@ const client = new Client({
    }
 });
 
+const manager = new GiveawayManagerWithOwnDatabase(client, {
+   default: {
+      embedColor: "#6AD9F3",
+      embedColorEnd: "#FF2C2C"
+   }
+});
+
 client.config = require("./config");
 
 client.commands = new Collection();
 client.cooldowns = new Collection();
+
+client.giveawaysManager = manager;
 
 ["events", "slashCommands", "antiCrash"].forEach(async file => {
    await require(`./handlers/${file}`)(client);
