@@ -61,13 +61,14 @@ module.exports = {
                giveaway: "",
                giveawayEnded: "",
                title: "{this.prize}",
-               drawing: "Drawing: {timestamp}",
+               drawing: "Ends: {timestamp}",
                dropMessage: "Be the first to react with 🎉",
                inviteToParticipate: "React with 🎉 to participate",
                winMessage:
-                  "Congratulations, {winners}! You won **{this.prize}**!\n{this.messageURL}",
+                  "Congratulations {winners}! You won the **{this.prize}**",
                embedFooter: "{this.winnerCount} winner(s)",
-               noWinner: "Giveaway cancelled, no valid participators.",
+               noWinner:
+                  "No valid entrants, so a winner could not be determined!",
                hostedBy: "Hosted by: {this.hostedBy}",
                winners: "Winner(s):",
                endedAt: "Ended at"
