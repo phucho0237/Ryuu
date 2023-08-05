@@ -67,7 +67,7 @@ module.exports = {
                winMessage:
                   "Congratulations, {winners}! You won **{this.prize}**!\n{this.messageURL}",
                embedFooter: "{this.winnerCount} winner(s)",
-               noWinner: "Giveaway cancelled, no valid participations.",
+               noWinner: "Giveaway cancelled, no valid participators.",
                hostedBy: "Hosted by: {this.hostedBy}",
                winners: "Winner(s):",
                endedAt: "Ended at"
