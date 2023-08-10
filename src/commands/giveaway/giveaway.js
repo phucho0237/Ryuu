@@ -32,6 +32,39 @@ module.exports = {
                   .setDescription("The prize of the giveaway")
                   .setRequired(true)
             )
+      )
+      .addSubcommand(subcommand =>
+         subcommand
+            .setName("reroll")
+            .setDescription("Reroll the giveaway")
+            .addStringOption(option =>
+               option
+                  .setName("query")
+                  .setDescription("The ID of the giveaway messages")
+                  .setRequired(true)
+            )
+      )
+      .addSubcommand(subcommand =>
+         subcommand
+            .setName("delete")
+            .setDescription("Delete the giveaway")
+            .addStringOption(option =>
+               option
+                  .setName("query")
+                  .setDescription("The ID of the giveaway messages")
+                  .setRequired(true)
+            )
+      )
+      .addSubcommand(subcommand =>
+         subcommand
+            .setName("end")
+            .setDescription("End the giveaway")
+            .addStringOption(option =>
+               option
+                  .setName("query")
+                  .setDescription("The ID of the giveaway messages")
+                  .setRequired(true)
+            )
       ),
    /**
     *
@@ -76,9 +109,86 @@ module.exports = {
          });
 
          interaction.reply({
-            content: "Giveaway has started!",
+            content: "Successfully started the giveaway.",
             ephemeral: true
          });
-      }
+      } else if (subcommand === "reroll") {
+         const query = interaction.options.getString("query");
+
+         const giveaway = interaction.client.giveawaysManager.giveaways.find(
+            g => g.guildId === interaction.guildId && g.messageId === query
+         );
+         if (!giveaway)
+            return interaction.reply({
+               content: `Unable to find a giveaway for \`${query}\``
+            });
+
+         interaction.client.giveawaysManager
+            .reroll(query)
+            .then(() => {
+               interaction.reply({
+                  content: "Successfully rerolled the giveaway.",
+                  ephemeral: true
+               });
+            })
+            .catch(err => {
+               interaction.reply({
+                  content: `There was a problem when trying to execute this command. Please try again later.`,
+                  ephemeral: true
+               });
+               console.error(err);
+            });
+      } else if (subcommand === "delete") {
+         const query = interaction.options.getString("query");
+
+         const giveaway = interaction.client.giveawaysManager.giveaways.find(
+            g => g.guildId === interaction.guildId && g.messageId === query
+         );
+         if (!giveaway)
+            return interaction.reply({
+               content: `Unable to find a giveaway for \`${query}\``
+            });
+
+         interaction.client.giveawaysManager
+            .delete(query)
+            .then(() => {
+               interaction.reply({
+                  content: "Successfully deleted the giveaway.",
+                  ephemeral: true
+               });
+            })
+            .catch(err => {
+               interaction.reply({
+                  content: `There was a problem when trying to execute this command. Please try again later.`,
+                  ephemeral: true
+               });
+               console.error(err);
+            });
+      } else if (subcommand === "end") {
+         const query = interaction.options.getString("query");
+
+         const giveaway = interaction.client.giveawaysManager.giveaways.find(
+            g => g.guildId === interaction.guildId && g.messageId === query
+         );
+         if (!giveaway)
+            return interaction.reply({
+               content: `Unable to find a giveaway for \`${query}\``
+            });
+
+         interaction.client.giveawaysManager
+            .end(query)
+            .then(() => {
+               interaction.reply({
+                  content: "Successfully ended the giveaway."
+               });
+            })
+            .catch(err => {
+               interaction.reply({
+                  content: `There was a problem when trying to execute this command. Please try again later.`,
+                  ephemeral: true
+               });
+               console.error(err);
+            });
+      } else return;
    }
 };
