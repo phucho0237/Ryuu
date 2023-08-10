@@ -37,7 +37,6 @@ const manager = new GiveawayManagerWithOwnDatabase(client, {
 client.config = require("./config");
 
 client.commands = new Collection();
-client.cooldowns = new Collection();
 
 client.giveawaysManager = manager;
 
