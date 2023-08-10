@@ -22,7 +22,7 @@ module.exports = {
             new EmbedBuilder()
                .setColor("#6AD9F3")
                .setDescription(
-                  `Pong 🏓\n\nWebsocket Latency: \`${
+                  `Websocket Latency: \`${
                      interaction.client.ws.ping
                   }ms\`\nRoundtrip latency: \`${
                      msg.createdTimestamp - interaction.createdTimestamp
