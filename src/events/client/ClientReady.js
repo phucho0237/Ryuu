@@ -28,8 +28,8 @@ module.exports = {
       mongoose.connection.once("open", () => {
          console.log(colors.magenta("[MONGO] | Connected successfully"));
       });
-      mongoose.connection.on("error", err => {
-         console.error(err);
-      });
+      // mongoose.connection.on("error", err => {
+      //    console.error(err);
+      // });
    }
 };
