@@ -22,14 +22,22 @@ module.exports = {
             ephemeral: true
          });
 
-      await interaction.channel.clone().then(c => {
-         c.setPosition(interaction.channel.position).then(
-            interaction.channel.delete()
-         );
+      try {
+         await interaction.channel.clone().then(c => {
+            c.setPosition(interaction.channel.position).then(
+               interaction.channel.delete()
+            );
 
-         c.send({
-            content: `Nuked by <@${interaction.user.id}>`
+            c.send({
+               content: `Nuked by <@${interaction.user.id}>`
+            });
          });
-      });
+      } catch (err) {
+         interaction.reply({
+            content:
+               "There was a problem when trying to execute this command. Please try again later."
+         });
+         console.error(err);
+      }
    }
 };
