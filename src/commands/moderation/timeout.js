@@ -45,7 +45,7 @@ module.exports = {
          !time.endsWith("s") &&
          !time.endsWith("m") &&
          !time.endsWith("h") &&
-         !time.endsWith("h")
+         !time.endsWith("d")
       )
          return interaction.reply({
             content: "The time you provided must be like this: 1s, 2m, 3h,...",
@@ -54,9 +54,15 @@ module.exports = {
 
       try {
          await user.timeout(ms(time), reason);
-         interaction.reply({
-            content: `Successfully timeout <@${user.id}> for \`${time}\``
-         });
+         interaction
+            .reply({
+               content: `Successfully timeout <@${user.id}> for \`${time}\``
+            })
+            .then(() =>
+               user.send(
+                  `You have been timed out for ${time} for reason: \`${reason}\``
+               )
+            );
       } catch (err) {
          interaction.reply({
             content:
