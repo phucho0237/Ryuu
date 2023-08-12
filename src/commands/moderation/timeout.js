@@ -41,6 +41,12 @@ module.exports = {
             ephemeral: true
          });
 
+      if (!user.bannable)
+         return interaction.reply({
+            content: "I can't timeout this user!",
+            ephemeral: true
+         });
+
       if (
          !time.endsWith("s") &&
          !time.endsWith("m") &&
