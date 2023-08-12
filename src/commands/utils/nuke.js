@@ -30,6 +30,10 @@ module.exports = {
 
             c.send({
                content: `Nuked by <@${interaction.user.id}>`
+            }).then(msg => {
+               setTimeout(() => {
+                  msg.delete().catch(err => console.error(err));
+               }, 5000);
             });
          });
       } catch (err) {
