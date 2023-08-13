@@ -30,10 +30,13 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      const user = interaction.options.getMember("user");
+      const user = interaction.options.getUser("user");
       const time = interaction.options.getString("time");
       const reason =
          interaction.options.getString("reason") || "No reason provided";
+
+      const member = interaction.guild.members.fetch({ user: user.id });
+      const timeMs = ms(time);
 
       if (!interaction.member.permissions.has(PermissionFlagsBits.ManageGuild))
          return interaction.reply({
@@ -41,34 +44,57 @@ module.exports = {
             ephemeral: true
          });
 
-      if (!user.bannable)
+      if (!member)
          return interaction.reply({
-            content: "I can't timeout this user!",
+            content: "I can't find this member.",
+            ephemeral: true
+         });
+
+      if (!timeMs || isNaN(timeMs))
+         return interaction.reply({
+            content: "Invalid duration, please try again.",
+            ephemeral: true
+         });
+
+      if (timeMs < 1000)
+         return interaction.reply({
+            content: "The time must be longer than 1 second.",
+            ephemeral: true
+         });
+
+      if (timeMs > 2419200000)
+         return interaction.reply({
+            content: "The time must be shorter than 28 days."
+         }); // 2419200000 = 28 days
+
+      if (!member.moderatable)
+         return interaction.reply({
+            content: "I can't timeout this user.",
             ephemeral: true
          });
 
       if (
-         !time.endsWith("s") &&
-         !time.endsWith("m") &&
-         !time.endsWith("h") &&
-         !time.endsWith("d")
+         member.roles.highest.position >=
+         interaction.member.roles.highest.position
       )
          return interaction.reply({
-            content: "The time you provided must be like this: 1s, 2m, 3h,...",
+            content:
+               "You can't timeout this user since they have the same/higher role than you",
             ephemeral: true
          });
 
       try {
-         await user.timeout(ms(time), reason);
-         interaction
-            .reply({
-               content: `Successfully timeout <@${user.id}> for \`${time}\``
-            })
+         await member
+            .timeout(timeMs, reason)
             .then(() =>
                user.send(
                   `You have been timed out for ${time} for reason: \`${reason}\``
                )
             );
+
+         interaction.reply({
+            content: `Successfully timeout <@${user.id}> for \`${time}\``
+         });
       } catch (err) {
          interaction.reply({
             content:
@@ -78,3 +104,4 @@ module.exports = {
       }
    }
 };
+c
