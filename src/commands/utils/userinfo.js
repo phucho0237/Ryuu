@@ -4,7 +4,6 @@ const {
    ChatInputCommandInteraction,
    EmbedBuilder
 } = require("discord.js");
-const { execute } = require("./serverinfo");
 
 module.exports = {
    data: new SlashCommandBuilder()
