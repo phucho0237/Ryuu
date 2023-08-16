@@ -16,7 +16,9 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      interaction.reply({
+      await interaction.deferReply();
+
+      interaction.editReply({
          embeds: [
             new EmbedBuilder()
                .setColor("#6AD9F3")
