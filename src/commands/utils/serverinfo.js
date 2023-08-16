@@ -73,6 +73,7 @@ module.exports = {
                      name: "Roles List",
                      value: `${interaction.guild.roles.cache
                         .toJSON()
+                        .filter(r => r.name !== "@everyone")
                         .join(", ")}`
                   }
                )
