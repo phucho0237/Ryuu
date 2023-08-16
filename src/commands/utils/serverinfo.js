@@ -10,7 +10,7 @@ module.exports = {
    data: new SlashCommandBuilder()
       .setName("serverinfo")
       .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
-      .setDescription("Get information about this server"),
+      .setDescription("Get information about the server"),
    /**
     *
     * @param {ChatInputCommandInteraction} interaction
