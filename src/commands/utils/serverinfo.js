@@ -21,9 +21,9 @@ module.exports = {
             new EmbedBuilder()
                .setColor("#6AD9F3")
                .setAuthor({
-                  name: interaction.guild.name,
-                  iconURL: interaction.guild.iconURL({ size: 256 })
+                  name: interaction.guild.name
                })
+               .setThumbnail(`${interaction.guild.iconURL()}`)
                .addFields(
                   {
                      name: "Owner",
