@@ -18,6 +18,9 @@ module.exports = {
    async execute(interaction) {
       await interaction.deferReply();
 
+      const guildIcon =
+         interaction.guild.iconURL() || "https://i.imgur.com/1NK2Ozv.jpg";
+
       interaction.editReply({
          embeds: [
             new EmbedBuilder()
@@ -25,7 +28,7 @@ module.exports = {
                .setAuthor({
                   name: interaction.guild.name
                })
-               .setThumbnail(`${interaction.guild.iconURL()}`)
+               .setThumbnail(guildIcon)
                .addFields(
                   {
                      name: "Owner",
