@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const giveawaySchema = new mongoose.Schema(
+const Schema = new mongoose.Schema(
    {
       messageId: String,
       channelId: String,
@@ -60,6 +60,6 @@ const giveawaySchema = new mongoose.Schema(
    { id: false }
 );
 
-const giveawayModel = mongoose.model("giveaways", giveawaySchema);
+const giveawayModel = mongoose.model("giveaways", Schema);
 
 module.exports = { giveawayModel };
