@@ -44,5 +44,7 @@ module.exports = {
             content: "Successfully set the channel slow mode."
          });
       }
+
+      /* Implement: Automatically convert seconds to other units */
    }
 };
