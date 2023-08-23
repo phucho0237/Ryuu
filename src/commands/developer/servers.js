@@ -16,8 +16,10 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
+      let count = 0;
+
       const guildsList = interaction.client.guilds.cache
-         .map(g => `${g.name} (ID: ${g.id})`)
+         .map(g => `${count + 1}. ${g.name} (ID: ${g.id})`)
          .join("\n");
 
       interaction.reply({
