@@ -9,11 +9,11 @@ module.exports = {
    data: new SlashCommandBuilder()
       .setName("slowmode")
       .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
-      .setDescription("Set slowmode for the channel")
+      .setDescription("Set slow mode for the channel")
       .addStringOption(option =>
          option
             .setName("time")
-            .setDescription("The time you want for the slowmode")
+            .setDescription("The time you want for the slow mode")
             .setRequired(true)
       ),
    /**
@@ -23,28 +23,26 @@ module.exports = {
    async execute(interaction) {
       const time = interaction.options.getString("time");
 
-      if (time.startsWith("-"))
+      const convertedTime = Math.abs(ms(time));
+
+      if (convertedTime > 21600)
          return interaction.reply({
-            content:
-               "The duration you provided is not positive. Please try again.",
+            content: "Maximum slow mode is 6 hours.",
             ephemeral: true
          });
 
-      if (!time.endsWith("s") && !time.endsWith("m") && !time.endsWith("h"))
-         return interaction.reply({
-            content: "Invalid duration, please try again.",
-            ephemeral: true
+      if (convertedTime === 0) {
+         await interaction.channel.setRateLimitPerUser(0);
+
+         interaction.reply({
+            content: "Successfully turned off slow mode"
          });
+      } else {
+         await interaction.channel.setRateLimitPerUser(convertedTime / 1000);
 
-      let convertedTime = ms(time) / 1000;
-
-      await interaction.channel
-         .setRateLimitPerUser(convertedTime)
-         .then(() =>
-            interaction.reply({
-               content: `Successfully set slowmode for this channel to ${convertedTime}s`,
-               ephemeral: true
-            })
-         );
+         interaction.reply({
+            content: "Successfully set the channel slow mode."
+         });
+      }
    }
 };
