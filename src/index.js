@@ -5,7 +5,9 @@ const {
    ActivityType,
    Collection
 } = require("discord.js");
+const { Player } = require("discord-player");
 
+const { loadExtractors } = require("./function/extractors");
 const { GiveawayManagerWithOwnDatabase } = require("./utils/giveawaysManager");
 
 const client = new Client({
@@ -13,7 +15,8 @@ const client = new Client({
       IntentsBitField.Flags.Guilds,
       IntentsBitField.Flags.GuildMembers,
       IntentsBitField.Flags.GuildMessages,
-      IntentsBitField.Flags.GuildMessageReactions
+      IntentsBitField.Flags.GuildMessageReactions,
+      IntentsBitField.Flags.GuildVoiceStates
    ],
    partials: [Object.keys(Partials)],
    presence: {
@@ -26,6 +29,9 @@ const client = new Client({
       status: "dnd"
    }
 });
+
+const player = new Player(client);
+loadExtractors(player);
 
 const manager = new GiveawayManagerWithOwnDatabase(client, {
    default: {
@@ -40,7 +46,7 @@ client.commands = new Collection();
 
 client.giveawaysManager = manager;
 
-["events", "slashCommands", "antiCrash"].forEach(async file => {
+["events", "slashCommands", "antiCrash", "player"].forEach(async file => {
    await require(`./handlers/${file}`)(client);
 });
 
