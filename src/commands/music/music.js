@@ -63,47 +63,46 @@ module.exports = {
             return interaction.editReply({
                content: `No track found for \`${query}\``
             });
+         const { track } = await player.play(channel, searchResult, {
+            nodeOptions: { metadata: interaction }
+         });
 
-         try {
-            const { track } = await player.play(channel, searchResult, {
-               nodeOptions: { metadata: interaction }
-            });
-
-            return interaction.followUp(`\`${track.title}\` enqueued`);
-         } catch (err) {
-            console.error(err);
-         }
+         interaction.followUp(`\`${track.title}\` enqueued`);
       } else if (subcommand === "stop") {
-         try {
-            queue.clear();
-            queue.node.stop();
-            interaction.followUp({
-               content: "Stopped the queue"
+         if (!queue)
+            return interaction.editReply({
+               content: "There is no playing queue is this guild!"
             });
-         } catch (err) {
-            console.error(err);
-         }
+
+         queue.clear();
+         queue.node.stop();
+         interaction.followUp({
+            content: "Stopped the queue"
+         });
       } else if (subcommand === "skip") {
-         try {
-            queue.node.skip();
-            interaction.followUp("Successfully skipped");
-         } catch (err) {
-            console.error(err);
-         }
+         if (!queue)
+            return interaction.editReply({
+               content: "There is no playing queue is this guild!"
+            });
+
+         queue.node.skip();
+         interaction.followUp("Successfully skipped");
       } else if (subcommand === "pause") {
-         try {
-            queue.node.setPaused(!queue.node.isPaused());
-            interaction.followUp("Successfully paused the player");
-         } catch (err) {
-            console.error(err);
-         }
+         if (!queue)
+            return interaction.editReply({
+               content: "There is no playing queue is this guild!"
+            });
+
+         queue.node.setPaused(!queue.node.isPaused());
+         interaction.followUp("Successfully paused the player");
       } else if (subcommand === "resume") {
-         try {
-            queue.node.resume();
-            interaction.followUp("Successfully resumed the player");
-         } catch (err) {
-            console.error(err);
-         }
+         if (!queue)
+            return interaction.editReply({
+               content: "There is no playing queue is this guild!"
+            });
+
+         queue.node.resume();
+         interaction.followUp("Successfully resumed the player");
       }
    }
 };
