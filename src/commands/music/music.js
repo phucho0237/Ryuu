@@ -26,6 +26,12 @@ module.exports = {
       )
       .addSubcommand(subcommand =>
          subcommand.setName("skip").setDescription("Skip a song")
+      )
+      .addSubcommand(subcommand =>
+         subcommand.setName("pause").setDescription("Pause the player")
+      )
+      .addSubcommand(subcommand =>
+         subcommand.setName("resume").setDescription("Resume the player")
       ),
    /**
     *
@@ -81,6 +87,20 @@ module.exports = {
          try {
             queue.node.skip();
             interaction.followUp("Successfully skipped");
+         } catch (err) {
+            console.error(err);
+         }
+      } else if (subcommand === "pause") {
+         try {
+            queue.node.setPaused(!queue.node.isPaused());
+            interaction.followUp("Successfully paused the player");
+         } catch (err) {
+            console.error(err);
+         }
+      } else if (subcommand === "resume") {
+         try {
+            queue.node.resume();
+            interaction.followUp("Successfully resumed the player");
          } catch (err) {
             console.error(err);
          }
