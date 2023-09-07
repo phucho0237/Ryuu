@@ -1,7 +1,8 @@
 const {
    SlashCommandBuilder,
    PermissionFlagsBits,
-   ChatInputCommandInteraction
+   ChatInputCommandInteraction,
+   EmbedBuilder
 } = require("discord.js");
 const { useMainPlayer, useQueue } = require("discord-player");
 
@@ -38,7 +39,7 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply();
 
       const subcommand = interaction.options.getSubcommand();
 
@@ -48,13 +49,13 @@ module.exports = {
       const channel = interaction.member.voice.channel;
 
       if (!channel)
-         return interaction.reply({
+         return interaction.editReply({
             content: "You need to join a voice channel first.",
             ephemeral: true
          });
 
       if (queue && queue.channel.id !== channel.id)
-         return interaction.reply({
+         return interaction.editReply({
             content: "I'm already playing in a different voice channel."
          });
 
@@ -70,11 +71,19 @@ module.exports = {
             });
 
          try {
-            await player.play(channel, searchResult, {
+            const { track } = await player.play(channel, searchResult, {
                nodeOptions: { metadata: interaction.channel }
             });
 
-            return interaction.editReply({ content: "Loading your track..." });
+            return interaction.editReply({
+               embeds: [
+                  new EmbedBuilder()
+                     .setColor("#6AD9F3")
+                     .setDescription(
+                        `<@${interaction.user.id}> added \`${track.title}\` to the queue`
+                     )
+               ]
+            });
          } catch (err) {
             console.error(err);
          }
