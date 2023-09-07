@@ -38,9 +38,12 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      await interaction.deferReply();
+      await interaction.deferReply({ ephemeral: true });
 
       const subcommand = interaction.options.getSubcommand();
+
+      const player = useMainPlayer();
+      const queue = useQueue(interaction.guild.id);
 
       const channel = interaction.member.voice.channel;
 
@@ -50,8 +53,10 @@ module.exports = {
             ephemeral: true
          });
 
-      const player = useMainPlayer();
-      const queue = useQueue(interaction.guild.id);
+      if (queue && queue.channel.id !== channel.id)
+         return interaction.reply({
+            content: "I'm already playing in a different voice channel."
+         });
 
       if (subcommand === "play") {
          const query = interaction.options.getString("query");
@@ -64,9 +69,15 @@ module.exports = {
                content: `No track found for \`${query}\``
             });
 
-         await player.play(channel, searchResult, {
-            nodeOptions: { metadata: interaction.channel }
-         });
+         try {
+            await player.play(channel, searchResult, {
+               nodeOptions: { metadata: interaction.channel }
+            });
+
+            return interaction.editReply({ content: "Loading your track..." });
+         } catch (err) {
+            console.error(err);
+         }
       } else if (subcommand === "stop") {
          if (!queue)
             return interaction.editReply({
