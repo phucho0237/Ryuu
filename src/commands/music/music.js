@@ -63,11 +63,10 @@ module.exports = {
             return interaction.editReply({
                content: `No track found for \`${query}\``
             });
-         const { track } = await player.play(channel, searchResult, {
+
+         await player.play(channel, searchResult, {
             nodeOptions: { metadata: interaction.channel }
          });
-
-         interaction.followUp(`\`${track.title} - ${track.author}\` enqueued!`);
       } else if (subcommand === "stop") {
          if (!queue)
             return interaction.editReply({
