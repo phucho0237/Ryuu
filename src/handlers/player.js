@@ -9,13 +9,13 @@ module.exports = client => {
       queue.metadata.send(`Started playing: **${track.title}**`);
    });
 
-   player.events.on("audioTrackAdd", (queue, track) => {
-      queue.metadata.send(`Track **${track.title}** queued`);
-   });
+   // player.events.on("audioTrackAdd", (queue, track) => {
+   //    queue.metadata.send(`Track **${track.title}** queued`);
+   // });
 
-   player.events.on("audioTracksAdd", (queue, track) => {
-      queue.metadata.send(`Multiple Track's queued`);
-   });
+   // player.events.on("audioTracksAdd", (queue, track) => {
+   //    queue.metadata.send(`Multiple Track's queued`);
+   // });
 
    player.events.on("playerSkip", (queue, track) => {
       queue.metadata.send(`Skipping **${track.title}** due to an issue!`);
