@@ -39,7 +39,7 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      await interaction.deferReply();
+      await interaction.deferReply({ ephemeral: true });
 
       const subcommand = interaction.options.getSubcommand();
 
@@ -50,8 +50,7 @@ module.exports = {
 
       if (!channel)
          return interaction.editReply({
-            content: "You need to join a voice channel first.",
-            ephemeral: true
+            content: "You need to join a voice channel first."
          });
 
       if (queue && queue.channel.id !== channel.id)
@@ -75,13 +74,10 @@ module.exports = {
                nodeOptions: { metadata: interaction.channel }
             });
 
-            return interaction.editReply({
-               embeds: [
-                  new EmbedBuilder()
-                     .setColor("#6AD9F3")
-                     .setDescription(`Loading your track...`)
-               ]
-            });
+            // interaction.editReply({
+            //    content: "Loading your track..."
+            // });
+            interaction.deleteReply();
          } catch (err) {
             interaction.editReply({
                content:
@@ -95,10 +91,14 @@ module.exports = {
                content: "There is no playing queue is this guild!"
             });
 
-         queue.clear();
-         queue.node.stop();
-         interaction.followUp({
-            content: "Stopped the queue"
+         queue.delete();
+
+         interaction.channel.send({
+            embeds: [
+               new EmbedBuilder()
+                  .setColor("#6AD9F3")
+                  .setDescription("Stopped the queue.")
+            ]
          });
       } else if (subcommand === "skip") {
          if (!queue)
@@ -107,23 +107,54 @@ module.exports = {
             });
 
          queue.node.skip();
-         interaction.followUp("Successfully skipped");
+
+         interaction.channel.send({
+            embeds: [
+               new EmbedBuilder()
+                  .setColor("#6AD9F3")
+                  .setDescription("Skipped the current track.")
+            ]
+         });
       } else if (subcommand === "pause") {
          if (!queue)
             return interaction.editReply({
                content: "There is no playing queue is this guild!"
             });
 
-         queue.node.setPaused(!queue.node.isPaused());
-         interaction.followUp("Successfully paused the player");
+         if (queue.node.isPaused())
+            return interaction.editReply({
+               content: "The queue is already paused."
+            });
+
+         queue.node.pause();
+
+         interaction.channel.send({
+            embeds: [
+               new EmbedBuilder()
+                  .setColor("#6AD9F3")
+                  .setDescription("Paused the queue.")
+            ]
+         });
       } else if (subcommand === "resume") {
          if (!queue)
             return interaction.editReply({
                content: "There is no playing queue is this guild!"
             });
 
+         if (queue.node.isPlaying())
+            return interaction.editReply({
+               content: "The queue is already playing."
+            });
+
          queue.node.resume();
-         interaction.followUp("Successfully resumed the player");
+
+         interaction.channel.send({
+            embeds: [
+               new EmbedBuilder()
+                  .setColor("#6AD9F3")
+                  .setDescription("Resuned the queue.")
+            ]
+         });
       }
    }
 };
