@@ -8,14 +8,18 @@ module.exports = client => {
       queue.metadata.send({
          embeds: [
             new EmbedBuilder()
-               .setAuthor({ name: "Now playing" })
-               .setTitle(`${track.title}`)
-               .setURL(`${track.url}`)
-               .setThumbnail(`${track.thumbnail}`)
+               .setColor("#6AD9F3")
+               .setAuthor({
+                  name: "Now playing",
+                  iconURL: track.requestedBy.displayAvatarURL()
+               })
+               .setDescription(`\`${track.title} - (${track.duration})\``)
+               .setImage(`${track.thumbnail}`)
                .setFooter({
                   text: `Requested by: ${track.requestedBy.username}`,
                   iconURL: track.requestedBy.displayAvatarURL()
                })
+               .setTimestamp()
          ]
       });
    });
@@ -24,17 +28,10 @@ module.exports = client => {
       queue.metadata.send({
          embeds: [
             new EmbedBuilder()
-               .setAuthor({
-                  name: `Track queued. Position: \`${
-                     queue.node.getTrackPosition(track) + 1
-                  }\``
-               })
-               .setTitle(`${track.title}`)
-               .setURL(`${track.url}`)
-               .setFooter({
-                  text: `Requested by: ${track.requestedBy.username}`,
-                  iconURL: track.requestedBy.displayAvatarURL()
-               })
+               .setColor("#6AD9F3")
+               .setDescription(
+                  `<@${track.requestedBy.id}> added \`${track.title}\` to the queue.`
+               )
          ]
       });
    });
@@ -43,11 +40,8 @@ module.exports = client => {
       queue.metadata.send({
          embeds: [
             new EmbedBuilder()
-               .setTitle(`${tracks.length} tracks queued.`)
-               .setFooter({
-                  text: `Requested by: ${tracks[0].requestedBy.username}`,
-                  iconURL: tracks[0].requestedBy.displayAvatarURL()
-               })
+               .setColor("#6AD9F3")
+               .setDescription(`Added ${tracks.length} tracks.`)
          ]
       });
    });
@@ -55,9 +49,11 @@ module.exports = client => {
    player.events.on("playerSkip", (queue, track) => {
       queue.metadata.send({
          embeds: [
-            new EmbedBuilder().setDescription(
-               `Skipping \`${track.title}\` due to an issue.`
-            )
+            new EmbedBuilder()
+               .setColor("#6AD9F3")
+               .setDescription(
+                  `<@${track.requestedBy.id}> skipped \`${track.title}\``
+               )
          ]
       });
    });
@@ -65,31 +61,41 @@ module.exports = client => {
    player.events.on("disconnect", queue => {
       queue.metadata.send({
          embeds: [
-            new EmbedBuilder().setDescription(
-               "Looks like my job here is done, leaving now."
-            )
+            new EmbedBuilder()
+               .setColor("#6AD9F3")
+               .setDescription("Looks like my job here is done, leaving now.")
          ]
       });
    });
+
    player.events.on("emptyChannel", queue => {
       queue.metadata.send({
          embeds: [
-            new EmbedBuilder().setDescription("Feeling lonely, leaving now.")
+            new EmbedBuilder()
+               .setColor("#6AD9F3")
+               .setDescription("Feeling lonely, leaving now.")
          ]
       });
    });
+
    player.events.on("emptyQueue", queue => {
       queue.metadata.send({
-         embeds: [new EmbedBuilder().setDescription("No more tracks to play.")]
+         embeds: [
+            new EmbedBuilder()
+               .setColor("#6AD9F3")
+               .setDescription("No more tracks to play.")
+         ]
       });
    });
 
    player.events.on("error", (queue, error) => {
       queue.metadata.send({
          embeds: [
-            new EmbedBuilder().setDescription(
-               "An error occurred while playing. Please try again later."
-            )
+            new EmbedBuilder()
+               .setColor("Red")
+               .setDescription(
+                  "An error occurred while playing. Please try again later."
+               )
          ]
       });
       console.log(error);
@@ -98,9 +104,11 @@ module.exports = client => {
    player.events.on("playerError", (queue, error) => {
       queue.metadata.send({
          embeds: [
-            new EmbedBuilder().setDescription(
-               "An error occurred while playing. Please try again later."
-            )
+            new EmbedBuilder()
+               .setColor("Red")
+               .setDescription(
+                  "An error occurred while playing. Please try again later."
+               )
          ]
       });
       console.log(error);
