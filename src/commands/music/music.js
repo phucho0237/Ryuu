@@ -65,13 +65,13 @@ module.exports = {
          const searchResult = await player.search(query, {
             requestedBy: interaction.user
          });
-         if (!searchResult.hasTracks)
+         if (!searchResult.hasTracks())
             return interaction.editReply({
                content: `No track found for \`${query}\``
             });
 
          try {
-            const { track } = await player.play(channel, searchResult, {
+            await player.play(channel, searchResult, {
                nodeOptions: { metadata: interaction.channel }
             });
 
@@ -79,9 +79,7 @@ module.exports = {
                embeds: [
                   new EmbedBuilder()
                      .setColor("#6AD9F3")
-                     .setDescription(
-                        `<@${interaction.user.id}> added \`${track.title}\` to the queue`
-                     )
+                     .setDescription(`Loading your track...`)
                ]
             });
          } catch (err) {
