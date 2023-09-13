@@ -83,6 +83,10 @@ module.exports = {
                ]
             });
          } catch (err) {
+            interaction.editReply({
+               content:
+                  "There was a problem when trying to execute this command. Please try again later."
+            });
             console.error(err);
          }
       } else if (subcommand === "stop") {
