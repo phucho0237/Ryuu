@@ -31,7 +31,7 @@ const client = new Client({
 });
 
 const player = new Player(client);
-loadExtractors(player);
+player.extractors.loadDefault();
 
 const manager = new GiveawayManagerWithOwnDatabase(client, {
    default: {
