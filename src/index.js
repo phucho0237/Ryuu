@@ -7,7 +7,6 @@ const {
 } = require("discord.js");
 const { Player } = require("discord-player");
 
-const { loadExtractors } = require("./function/extractors");
 const { GiveawayManagerWithOwnDatabase } = require("./utils/giveawaysManager");
 
 const client = new Client({
