@@ -39,7 +39,7 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      await interaction.deferReply({ ephemeral: true });
+      await interaction.deferReply();
 
       const subcommand = interaction.options.getSubcommand();
 
@@ -64,7 +64,7 @@ module.exports = {
          const searchResult = await player.search(query, {
             requestedBy: interaction.user
          });
-         if (!searchResult.hasTracks())
+         if (!searchResult)
             return interaction.editReply({
                content: `No track found for \`${query}\``
             });
@@ -74,10 +74,13 @@ module.exports = {
                nodeOptions: { metadata: interaction.channel }
             });
 
-            // interaction.editReply({
-            //    content: "Loading your track..."
-            // });
-            interaction.deleteReply();
+            interaction.editReply({
+               embeds: [
+                  new EmbedBuilder()
+                     .setColor("#6AD9F3")
+                     .setDescription("Loading your track...")
+               ]
+            });
          } catch (err) {
             interaction.editReply({
                content:
