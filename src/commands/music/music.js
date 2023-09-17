@@ -39,7 +39,7 @@ module.exports = {
     * @param {ChatInputCommandInteraction} interaction
     */
    async execute(interaction) {
-      await interaction.deferReply();
+      await interaction.deferReply({ ephemeral: true });
 
       const subcommand = interaction.options.getSubcommand();
 
@@ -96,11 +96,13 @@ module.exports = {
 
          queue.delete();
 
-         interaction.channel.send({
+         interaction.editReply({
             embeds: [
                new EmbedBuilder()
                   .setColor("#6AD9F3")
-                  .setDescription("Stopped the queue.")
+                  .setDescription(
+                     `<@${interaction.user.id}> stopped the player.`
+                  )
             ]
          });
       } else if (subcommand === "skip") {
@@ -109,13 +111,20 @@ module.exports = {
                content: "There is no playing queue is this guild!"
             });
 
+         if (queue.size < 1)
+            return interaction.reply({
+               content: "The queue has no more track!"
+            });
+
          queue.node.skip();
 
-         interaction.channel.send({
+         interaction.editReply({
             embeds: [
                new EmbedBuilder()
                   .setColor("#6AD9F3")
-                  .setDescription("Skipped the current track.")
+                  .setDescription(
+                     `<@${interaction.user.id}> skipped the current track.`
+                  )
             ]
          });
       } else if (subcommand === "pause") {
@@ -126,16 +135,16 @@ module.exports = {
 
          if (queue.node.isPaused())
             return interaction.editReply({
-               content: "The queue is already paused."
+               content: "The queue is already paused!"
             });
 
          queue.node.pause();
 
-         interaction.channel.send({
+         interaction.editReply({
             embeds: [
                new EmbedBuilder()
                   .setColor("#6AD9F3")
-                  .setDescription("Paused the queue.")
+                  .setDescription("Paused the player.")
             ]
          });
       } else if (subcommand === "resume") {
@@ -146,16 +155,16 @@ module.exports = {
 
          if (queue.node.isPlaying())
             return interaction.editReply({
-               content: "The queue is already playing."
+               content: "The queue is already playing!"
             });
 
          queue.node.resume();
 
-         interaction.channel.send({
+         interaction.editReply({
             embeds: [
                new EmbedBuilder()
                   .setColor("#6AD9F3")
-                  .setDescription("Resuned the queue.")
+                  .setDescription("Resumed the queue.")
             ]
          });
       }
