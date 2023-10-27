@@ -29,8 +29,8 @@ const client = new Client({
 
 const manager = new GiveawayManagerWithOwnDatabase(client, {
    default: {
-      embedColor: "#6AD9F3",
-      embedColorEnd: "#FF2C2C"
+      embedColor: "#FFF757",
+      embedColorEnd: "#36393F"
    }
 });
 
