@@ -96,12 +96,10 @@ module.exports = {
                title: "{this.prize}",
                drawing: "Ends: {timestamp}",
                dropMessage: "Be the first to react with 🎉",
-               inviteToParticipate: "React with 🎉 to participate",
-               winMessage:
-                  "Congratulations {winners}! You won the **{this.prize}**",
+               inviteToParticipate: "React with 🎉 to enter",
+               winMessage: "{winners} has won the giveaway for `{this.prize}`",
                embedFooter: "{this.winnerCount} winner(s)",
-               noWinner:
-                  "No valid entrants, so a winner could not be determined!",
+               noWinner: "Nobody has won the giveaway for `{this.prize}`",
                hostedBy: "Hosted by: {this.hostedBy}",
                winners: "Winner(s):",
                endedAt: "Ended at"
